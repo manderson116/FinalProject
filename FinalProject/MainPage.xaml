@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="FinalProject.MainPage">
+    <Grid
+        Padding="20,0,20,10"
+        RowDefinitions="Auto,*,Auto"
+        HorizontalOptions="Fill"
+        VerticalOptions="Fill" >
+        <VerticalStackLayout
+            Grid.Row="0"
+            Spacing="10"
+            VerticalOptions="Fill" >
+            <!--
+            <Image
+                x:Name="myImage"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+            
+            <Label
+                Text="Music Player"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+            -->
+            <Button
+                x:Name="SelectFolderButton"
+                Text="Select music directory..."
+                Clicked="SelectFolderButtonClicked"
+                HorizontalOptions="Fill" />
+
+            <Grid
+                HorizontalOptions="Fill" >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Button
+                    Grid.Column="0"
+                    x:Name="ShuffleButton"
+                    Text="🔀"
+                    FontSize="28.0"
+                    Clicked="ShuffleButtonClicked"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    Margin="2" />
+
+                <Button
+                    Grid.Column="1"
+                    x:Name="PreviousButton"
+                    Text="⏮️"
+                    FontSize="28.0"
+                    Clicked="PreviousButtonClicked"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    Margin="2" />
+
+                <Button
+                    Grid.Column="2"
+                    x:Name="PlayPauseButton"
+                    Text="⏯️"
+                    FontSize="28.0"
+                    Clicked="PlayPauseButtonClicked"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    Margin="2" />
+
+                <Button
+                    Grid.Column="3"
+                    x:Name="NextButton"
+                    Text="⏭️"
+                    FontSize="28.0"
+                    Clicked="NextButtonClicked"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    Margin="2" />
+
+                <Button
+                    Grid.Column="4"
+                    x:Name="RepeatButton"
+                    Text="🔁"
+                    FontSize="28.0"
+                    Clicked="RepeatButtonClicked"
+                    HorizontalOptions="Fill"
+                    Padding="0"
+                    Margin="2" />
+            </Grid>
+
+            <Grid
+                HorizontalOptions="Fill" >
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="60" />
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    x:Name="SeekCurrentTimeLabel"
+                    Grid.Column="0"
+                    BindingContext="{x:Reference Name=MediaPlayerElement}"
+                    Text="{Binding Source={x:Reference MediaPlayerElement}, Path=Position, StringFormat='{0:m\\:ss}'}"
+                    VerticalTextAlignment="Center" />
+
+                <Slider
+                    x:Name="SeekSlider"
+                    Grid.Column="1"
+                    BindingContext="{x:Reference Name=MediaPlayerElement}"
+                    Value="{Binding Path=Position.TotalMilliseconds}"
+                    Maximum="{Binding Path=Duration.TotalMilliseconds}"
+                    DragCompleted="SeekSliderChanged" />
+
+                <Label
+                    x:Name="SeekTotalTimeLabel"
+                    Grid.Column="2"
+                    BindingContext="{x:Reference Name=MediaPlayerElement}"
+                    Text="{Binding Path=Duration, StringFormat='{0:m\\:ss}'}"
+                    HorizontalTextAlignment="End"
+                    VerticalTextAlignment="Center" />
+            </Grid>
+
+            <toolkit:MediaElement
+                x:Name="MediaPlayerElement"
+                IsVisible="false"
+                ShouldAutoPlay="False"
+                MediaOpened="MediaPlayerOpened"
+                MediaEnded="MediaPlayerEnded" />
+
+            <Label
+                x:Name="CurrentMediaLabel"
+                Text="" />
+        </VerticalStackLayout>
+        <Border StrokeThickness="2"
+            Grid.Row="1"
+            HorizontalOptions="Fill"
+            VerticalOptions="FillAndExpand" >
+            
+            <ScrollView>
+                <ListView
+                    x:Name="PlaylistView"
+                    ItemsSource="{Binding Media}"
+                    ItemTapped="PlaylistViewItemTapped"
+                    VerticalScrollBarVisibility="Always" >
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Grid
+                                Padding="20,6">
+                                    <Label
+                                    Text="{Binding Name}" />
+                                    <!--FontAttributes="Bold"-->
+                                </Grid>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </ScrollView>
+        </Border>
+
+        <ScrollView
+            Grid.Row="2"
+            HorizontalOptions="Fill"
+            VerticalOptions="Fill" >
+            <VerticalStackLayout
+                Spacing="10" >
+                <Label
+                    x:Name="StatusLabel"
+                    HorizontalTextAlignment="End"
+                    Text="" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>
